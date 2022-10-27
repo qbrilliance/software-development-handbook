@@ -4,14 +4,14 @@
 QB repositories are hosted on Gitlab, within [the qbau organisation](https://gitlab.com/qbau).
 
 2. *Structure of qbau repository tree on Gitlab*  
-    - Each team creates and maintains a folder within the qbau organisation, named after the team and containing the software repositories maintained by that team.  This is referred to in Gitlab as a 'group'.  These folders may contain subfolders at the respective teams' discretion (e.g. for specific projects).  
-    - An additional [company-wide](https://gitlab.com/qbau/company-wide) folder also exists, and contains repositories maintained by the company as a whole (such as the repository in which this handbook resides).  
+    - Each team creates and maintains a folder within the [qbau](https://gitlab.com/qbau) organisation, named after the team and containing the software repositories maintained by that team.  This is referred to in Gitlab as a 'group'.  These folders may contain subfolders at the respective teams' discretion, for example for specific projects.  
+    - An additional [company-wide](https://gitlab.com/qbau/company-wide) folder also exists, and contains repositories maintained by the company as a whole, such as the repository in which this handbook resides.  
     - No repositories should exist outside of these folders, i.e. in the root of the qbau organisation.
 
 3. *Gitlab organisation membership and group/repository access levels*  
-    - The IT Group is solely responsible for adding new users to the qbau Gitlab organisation.  
-    - IT will setting all users' access level at the organisation level to 'Developer'.  This gives all QB employees the ability to read, raise issues and lodge merge requests on all repos of all teams in QB.  
-    - IT should give Team Leads 'Owner' level permissions for the folders that they administer.  Team Leads may upgrade any users' access levels within their Gitlab group (folder) or for a specific repository in their folder.
+    - The IT Team is solely responsible for adding new users to the [qbau](https://gitlab.com/qbau) Gitlab organisation.  
+    - IT will set all users' access level at the organisation level to 'Developer'.  This gives all QB employees the ability to read, raise issues on and lodge merge requests to all repos of all teams in QB.  
+    - IT should give Team Leads 'Owner' level permissions for the groups (i.e. folders) that they administer.  Team Leads may upgrade any users' access levels within their Gitlab group or for a specific sub-group or repository in their group.
 
 4. repo file tree and source file naming [Pat]
     - preference for out-of-source builds when using cmake (build dir)
