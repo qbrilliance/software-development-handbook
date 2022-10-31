@@ -40,16 +40,16 @@
     - *General rules*  
         - All tests are to be automated to the greatest extent possible.  All validation tests should be automated. Some verification tests may need to be done manually (e.g. usability testing).  
         - Verification and validation tests are both to be done as part of CI (continuous integration), i.e. *continuously* throughout the software development process, at the time of delivery to customers, and thereafter as part of code maintenance.  
-    - *Unit test* <a name="unit_tests"></a> 
-        - All repositories must include unit and unit-level regression tests.
+    - *Unit tests* <a name="unit_tests"></a> 
+        - All repositories must include unit tests and unit-level regression tests.
         - Addition of new functions and/or classes must include the addition of associated unit tests.  
         - Coverage and reporting:  
-            - Coverage metrics should be reported for all unit tests, using [built-in Gitlab CI](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html) as much as possible.  
+            - Coverage metrics should be reported for all repositories on the basis of unit tests, using the [built-in Gitlab CI](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html) as much as possible.  
             - A goal coverage level should be agreed on a per-project basis.  
     - *Component tests*  
         - Component repositories must include component tests (and thus component-level regression tests).  
     - *Integration tests*
-        - Integration and integration-level regression tests may be implemented in the repos of top-level components and/or as a standalone integration testing framework residing in a dedicated repository.  
+        - Integration tests and integration-level regression tests may be implemented in the repos of top-level components and/or as a standalone integration testing framework residing in a dedicated repository.  
         - Integration tests should include hardware wherever possible.  
     - *Regression tests*  
         - To be implemented when new code is added by automatically repeating unit, component and/or integration tests used to validate previous code versions.
