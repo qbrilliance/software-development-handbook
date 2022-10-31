@@ -17,7 +17,7 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
     - The preferred structure is for source files to be placed in a `src` folder, and headers in an `include` folder. Other source components (tests, examples, data, etc) may have their own dedicated folders at the same level as `src` and `include`.
     - Flat file structures are to be preferred over heavily nested ones. File links (whether hard or symbolic) are strongly discouraged.  
     - The only exception to the above is that headers should always be placed in a folder structure that provides an include namespace.  For example, header files in the QB SDK core reside in core/include/qb/core, and are included in C++ as `#include "qb/core/foo.hpp"`.  
-    - When using cmake, CMakeLists.txt files are to be designed to allow out-of-source builds.  All builds in CI jobs and in released scripts should be done out-of-source.
+    - When using cmake, `CMakeLists.txt` files are to be designed to allow out-of-source builds.  All builds in CI jobs and in released scripts should be done out-of-source.
 
 5. *Naming of git branches*  
     - `X-Y-Z`, with `X` a Jira or Gitlab issue code addressed by the branch, `Y` an informative name for the branch, and `Z` an optional date in the format YYYYMMDD.
