@@ -32,6 +32,7 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
 
     a. Preparation of merge requests   [Simon]  
         - Feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format)  
+        - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit testing](#unit_tests)).  
         - A merge template should exist, explaining what is expected in a merge request  
         - Merge request must contain: a short summary of the solution, any new tests added, statement addressing update of documentation  
         - MR encouraged to contain: statement addressing unit/CI/regression tests added to test new features or bug fix
@@ -39,7 +40,7 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
     b. Code reviews [Simon]  
         - 1 or more reviewer.  
         - The person submitting the merge request cannot be a reviewer.  
-        - Review process should involve reading through the code, considering the logic of the feature + unit and integration tests, running the new code (where feasible), and giving feedback  
+        - Review process should involve reading through the code, considering the logic of the feature and the unit, component and/or integration tests (in particular whether the new code adds things that need new tests added), running the new code (where feasible), and giving feedback  
         - Additional inputs can be sought from other devs (preferably using @ ).  The reviewer(s) have responsibility to ensure that the additional inputs have been addressed before approving the merge.
 
     c. Approval to merge [Simon]  

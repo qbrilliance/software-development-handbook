@@ -1,40 +1,68 @@
 ## 4. DevOps
 
-    1. Platform support via Docker [John]
-        - Docker should be used to support cross-architecture builds
-        - Mac is a special case, can be supported by getting Mac runner (via cloud, or buying the metal)
-        - Docker best practices
-            - Shallow structure
-                - Can be achieved using multi-stage build, where binaries produced in one container using installed tools are copied to a new clean one
-            - Break long install (e.g. apt install) commands into multiple (alphabetised) commands
-            - Minimise usage of root access
-            - Keep your scripts OCI (open container initiative) compliant
-            - All Docker images should be accompanied by a Docker compose file
-            - All Docker images should be version-tagged in their Docker compose file (and versions should actually increment!)
+1. *Usage of Docker* [John]
+    - Docker should be used to support cross-architecture builds
+    - Mac is a special case, can be supported by getting Mac runner (via cloud, or buying the metal)
+    - Docker best practices
+        - Shallow structure
+            - Can be achieved using multi-stage build, where binaries produced in one container using installed tools are copied to a new clean one
+        - Break long install (e.g. apt install) commands into multiple (alphabetised) commands
+        - Minimise usage of root access
+        - Keep your scripts OCI (open container initiative) compliant
+        - All Docker images should be accompanied by a Docker compose file
+        - All Docker images should be version-tagged in their Docker compose file (and versions should actually increment!)
 
-    2. issue tracking on GitLab vs Jira and GitLab-Jira integration [tbd]
-        - <Simon G and Stefan to test some things out and report back>
+2. issue tracking on GitLab vs Jira and GitLab-Jira integration [tbd]
+    - <Simon G and Stefan to test some things out and report back>
 
-    3. best practice bug reporting [Stefan]
-        - a bug report template should be provided (use is optional but encouraged)
-        - should include
-            - minimal information about how to reproduce the bug
-            - expected output
-            - what you got instead
-            - platform and software version info about where you saw the bug
-            - details of any fixes already attempted and/or workarounds found
-        - bugs on public (Gitlab) repos should be encouraged to be raised directly on those (and then migrated internally to whatever private repo / Jira board is most relevant)
+3. *Bug reports* [Stefan]
+    - a bug report template should be provided (use is optional but encouraged)
+    - should include
+        - minimal information about how to reproduce the bug
+        - expected output
+        - what you got instead
+        - platform and software version info about where you saw the bug
+        - details of any fixes already attempted and/or workarounds found
+    - bugs on public (Gitlab) repos should be encouraged to be raised directly on those (and then migrated internally to whatever private repo / Jira board is most relevant)
 
-    4. Automated testing [Pat]
-        a. Unit, component and integration tests should be implemented, and kept separate to each other.  These should target both regression (testing that you get the same result as in previous versions) and validation (testing that you get the right result).  Verification (testing that software requirements are satisfied) as well once we actually have written requirements documents.
-        b. Unit test coverage and reporting
-            - unit tests should exist in all packages; new merges should add tests for new functionality
-            - coverage metrics should be reported for all unit tests, using built-in Gitlab CI as much as possible ([https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html))
-            - A goal coverage level should be agreed later, or project by project
-        c. Package security testing
-            - turn on automated Gitlab dependency scanning ([https://docs.gitlab.com/ee/user/application_security/dependency_scanning/](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/))
-        d. CI design
-            - Build and test steps should do only that (in part to properly facilitate cross-platform testing)
-            - We are all encouraged to steal liberally from other groups’ CI scripts
-            - Should include hardware wherever possible
-            - Multiple tests for different targets (hardware, compilers, OS, library versions).  Automated most effectively via Docker.
+4. *Testing*
+    - *Definitions*  
+        - **Verification**: testing that the code satisfies all relevant software / product *design requirements and specifications*.  Examples:  
+            - Comparison of library APIs against design specifications  
+            - Comparison of code functionality against requirements  
+            - Usability testing (internal and external)  
+            - Customer testing  
+        - **Validation**: testing that the outputs of the code are *correct*.  Tests should compare with known, expected results.  Expected results may be in the form of diagnostic/logged outputs and/or numerical comparison of results to expected values, within appropriate numerical tolerances. Test types:  
+            - **Unit tests**: validation that individial code units (usually individual functions or classes) produce expected results.  
+            - **Component tests**: validation that package components build and install correctly, and produce expected results.  
+            - **Integration tests**: validation that systems comprised of multiple software and/or hardware components produce the expected results when operating as a system.  
+            - **Regression tests**: tests that should produce the same results when run using new versions of the software as they did when run using previously validated versions.  
+    - *General rules*  
+        - All tests are to be automated to the greatest extent possible.  All validation tests should be automated. Some verification tests may need to be done manually (e.g. usability testing).  
+        - Verification and validation tests are both to be done as part of CI (continuous integration), i.e. *continuously* throughout the software development process, at the time of delivery to customers, and thereafter as part of code maintenance.  
+    - *Unit test* <a name="unit_tests"></a> 
+        - All repositories must include unit and unit-level regression tests.
+        - Addition of new functions and/or classes must include the addition of associated unit tests.  
+        - Coverage and reporting:  
+            - Coverage metrics should be reported for all unit tests, using [built-in Gitlab CI](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html) as much as possible.  
+            - A goal coverage level should be agreed on a per-project basis.  
+    - *Component tests*  
+        - Component repositories must include component tests (and thus component-level regression tests).  
+    - *Integration tests*
+        - Integration and integration-level regression tests may be implemented in the repos of top-level components and/or as a standalone integration testing framework residing in a dedicated repository.  
+        - Integration tests should include hardware wherever possible.  
+    - *Regression tests*  
+        - To be implemented when new code is added by automatically repeating unit, component and/or integration tests used to validate previous code versions.
+    - *Security testing*
+        - To the extent possible, regression tests should also aim to target security.
+        - [Automated Gitlab dependency scanning for security defects](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/) must be activated for all respositories.  
+    - *CI pipeline design*
+        - CI pipelines should be fully automated.  
+        - The build and test steps in pipelines should respectively build and perform tests only.  This is to ensure modularity of the testing pipelines, in part to properly facilitate cross-platform testing.  
+        - CI pipeline authors are strongly encouraged to borrow liberally from other Teams' CI scripts.  
+        - Pipelines are to include multiple tests aimed at different platforms.  Targets should differ in hardware, compilers, OS, library versions or any other relevant characteristic across which diversity of deployments is desirable.  
+        - CI pipelines should normally be implemented using Docker.
+
+5. *Dependencies*
+    - Dependencies should generally be pinned to either specific versions, or specific minimal required versions, of dependent packages.
+    - Any known security vulnerabilities in dependent packages should be mitigated by upgrading/downgrading to more secure versions, or (in extreme cases) switching to an alternative package.
