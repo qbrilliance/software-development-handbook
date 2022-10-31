@@ -26,43 +26,60 @@
     - bugs on public (Gitlab) repos should be encouraged to be raised directly on those (and then migrated internally to whatever private repo / Jira board is most relevant)
 
 4. *Testing*
-    - *Definitions*  
-        - **Verification**: testing that the code satisfies all relevant software / product *design requirements and specifications*.  Examples:  
-            - Comparison of library APIs against design specifications  
-            - Comparison of code functionality against requirements  
-            - Usability testing (internal and external)  
-            - Customer testing  
-        - **Validation**: testing that the outputs of the code are *correct*.  Tests should compare with known, expected results.  Expected results may be in the form of diagnostic/logged outputs and/or numerical comparison of results to expected values, within appropriate numerical tolerances. Test types:  
-            - **Unit tests**: validation that individial code units (usually individual functions or classes) produce expected results.  
-            - **Component tests**: validation that package components build and install correctly, and produce expected results.  
-            - **Integration tests**: validation that systems comprised of multiple software and/or hardware components produce the expected results when operating as a system.  
-            - **Regression tests**: tests that should produce the same results when run using new versions of the software as they did when run using previously validated versions.  
-    - *General rules*  
-        - All tests are to be automated to the greatest extent possible.  All validation tests should be automated. Some verification tests may need to be done manually (e.g. usability testing).  
-        - Verification and validation tests are both to be done as part of CI (continuous integration), i.e. *continuously* throughout the software development process, at the time of delivery to customers, and thereafter as part of code maintenance.  
-    - *Unit tests* <a name="unit_tests"></a> 
-        - All repositories must include unit tests and unit-level regression tests.
-        - Addition of new functions and/or classes must include the addition of associated unit tests.  
-        - Coverage and reporting:  
-            - Coverage metrics should be reported for all repositories on the basis of unit tests, using the [built-in Gitlab CI](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html) as much as possible.  
-            - A goal coverage level should be agreed on a per-project basis.  
-    - *Component tests*  
-        - Component repositories must include component tests (and thus component-level regression tests).  
-    - *Integration tests*
-        - Integration tests and integration-level regression tests may be implemented in the repos of top-level components and/or as a standalone integration testing framework residing in a dedicated repository.  
-        - Integration tests should include hardware wherever possible.  
-    - *Regression tests*  
-        - To be implemented when new code is added by automatically repeating unit, component and/or integration tests used to validate previous code versions.
-    - *Security testing*
-        - To the extent possible, regression tests should also aim to target security.
-        - [Automated Gitlab dependency scanning for security defects](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/) must be activated for all respositories.  
-    - *CI pipeline design*
-        - CI pipelines should be fully automated.  
-        - The build and test steps in pipelines should respectively build and perform tests only.  This is to ensure modularity of the testing pipelines, in part to properly facilitate cross-platform testing.  
-        - CI pipeline authors are strongly encouraged to borrow liberally from other Teams' CI scripts.  
-        - Pipelines are to include multiple tests aimed at different platforms.  Targets should differ in hardware, compilers, OS, library versions or any other relevant characteristic across which diversity of deployments is desirable.  
-        - CI pipelines should normally be implemented using Docker.
+
+    a. *Definitions*  
+
+      - **Verification**: testing that the code satisfies all relevant software / product *design requirements and specifications*.  Examples:  
+          - Comparison of library APIs against design specifications  
+          - Comparison of code functionality against requirements  
+          - Usability testing (internal and external)  
+          - Customer testing  
+      - **Validation**: testing that the outputs of the code are *correct*.  Tests should compare with known, expected results.  Expected results may be in the form of diagnostic/logged outputs and/or numerical comparison of results to expected values, within appropriate numerical tolerances. Test types:  
+          - **Unit tests**: validation that individial code units (usually individual functions or classes) produce expected results.  
+          - **Component tests**: validation that package components build and install correctly, and produce expected results.  
+          - **Integration tests**: validation that systems comprised of multiple software and/or hardware components produce the expected results when operating as a system.  
+          - **Regression tests**: tests that should produce the same results when run using new versions of the software as they did when run using previously validated versions.  
+
+    b. *General rules*  
+
+      - All tests are to be automated to the greatest extent possible.  All validation tests should be automated. Some verification tests may need to be done manually (e.g. usability testing).  
+      - Verification and validation tests are both to be done as part of CI (continuous integration), i.e. *continuously* throughout the software development process, at the time of delivery to customers, and thereafter as part of code maintenance.  
+
+    c. *Unit tests* <a name="unit_tests"></a> 
+
+      - All repositories must include unit tests and unit-level regression tests.
+      - Addition of new functions and/or classes must include the addition of associated unit tests.  
+      - Coverage and reporting:  
+          - Coverage metrics should be reported for all repositories on the basis of unit tests, using the [built-in Gitlab CI](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html) as much as possible.  
+          - A goal coverage level should be agreed on a per-project basis.  
+
+    d. *Component tests*  
+
+      - Component repositories must include component tests (and thus component-level regression tests).  
+
+    e. *Integration tests*
+
+      - Integration tests and integration-level regression tests may be implemented in the repos of top-level components and/or as a standalone integration testing framework residing in a dedicated repository.  
+      - Integration tests should include hardware wherever possible.  
+
+    f. *Regression tests*  
+
+      - To be implemented when new code is added by automatically repeating unit, component and/or integration tests used to validate previous code versions.
+
+    g. *Security testing*
+
+      - To the extent possible, regression tests should also aim to target security.
+      - [Automated Gitlab dependency scanning for security defects](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/) must be activated for all respositories.  
+
+    h. *CI pipeline design*
+
+      - CI pipelines should be fully automated.  
+      - The build and test steps in pipelines should respectively build and perform tests only.  This is to ensure modularity of the testing pipelines, in part to properly facilitate cross-platform testing.  
+      - CI pipeline authors are strongly encouraged to borrow liberally from other Teams' CI scripts.  
+      - Pipelines are to include multiple tests aimed at different platforms.  Targets should differ in hardware, compilers, OS, library versions or any other relevant characteristic across which diversity of deployments is desirable.  
+      - CI pipelines should normally be implemented using Docker.
 
 5. *Dependencies*
+
     - Dependencies should generally be pinned to either specific versions, or specific minimal required versions, of dependent packages.
     - Any known security vulnerabilities in dependent packages should be mitigated by upgrading/downgrading to more secure versions, or (in extreme cases) switching to an alternative package.
