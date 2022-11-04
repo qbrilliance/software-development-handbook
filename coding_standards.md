@@ -3,38 +3,42 @@
 1. Code formatting & standards
 
     a. Code format [Johannes]
+      
+      Code should be formatted at foremost in a consistent way in a project but must be in a file. There are many different formats used (see https://github.com/motine/cppstylelineup for a comparison of the most popular ones) and we stick to google format (https://google.github.io/styleguide/cppguide.html). The guide contains much more than just formatting, e.g. naming, comments, function and class design, header files, scoping, advanced language features/construct and common pitfalls. Feel free to browse the guide once at your startup and use it for later reference, e.g. in code reviews. We will extend the set of C++ guidelines locally to avoid common pitfalls and generally increase code quality - e.g. design patterns, memory management e.g. unique_ptr, common pitfalls e.g. braces after if’s, etc. Our guidelines won’t cover the order of private/public & where things reside - we’ll leave that up to the designer of the module.
+      
+      Code formatting:
+      You do not need to remember the format rules, you can let the IDE enforce it for you (on save). The vscode configuration: 
+        - install extension clang-format by xaver under extensions (see https://github.com/xaverh/vscode-clang-format)
+        - in settings.json add {"editor.formatOnSave": true}
+        - add .clang-format file in folder or parent folder with "BasedOnStyle: Google" (see https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
+      The only exception is if there is an upstream project using a particular style, we will follow that style.
+      Comment blocks should be compatible with doxygen (https://doxygen.nl/) and not altered by clang-format. To enforce this behavior 
+        - in .clang-format add "CommentPragmas:  '^[^ ]'"
 
-      - C++
-        - Use qbOS google or chromium format (publish the clang-format config)
-        - Spaces (not tabs) using the google guideline
-        - Suggest running format on save, but don’t enforce project’s do it
-        - variable naming style: Use the google style guides <insert link>
-        - Provide formatting tools in the IDE to make this as easy as possible (e.g. clang-format)
-        - If there is an upstream project is using a particular style, we will follow that style.
-        - Within a file, the formatting MUST be consistent, within a code base the formatting SHOULD be consistent.
-        - We should develop a set of C++ guidelines to avoid common pitfalls and generally increase code quality - e.g. design patterns, memory management e.g. unique_ptr, common pitfalls e.g. braces after if’s etc
-        - Our guidelines won’t cover the order of private/public & where things reside - we’ll leave that up to the designer of the module.
-        - Come to a decision on a commenting style that works for IDEs, it might be doxygen e.g. “//! \param “ but it might also be something more fundamental - need to investigate what makes the IDEs see the comments (see below, “doxygen preferred”).
-
-      - Python
-        - Use Black formatter with line length adjustment
-          - Spaces not tabs
-          - Suggest format on save
-        - New python code should use type annotations
+      For Python code the same principle is applied as above (https://google.github.io/styleguide/pyguide.html).
+      The Google style guide recommends YAPF (https://github.com/google/yapf/), a project based on clang-format which aims to additionally make the code look good instead of only removing linter errors. Black formatter (https://github.com/psf/black) is another option.
 
     b. linting [Johannes]
-
-      - C++ - suggest using clang-tidy in the IDE - no rules about enforcing they are dealt with (too much effort for an inherited code base). New code should address as many as possible.
-      - Py - Suggest using a linter/language server that includes type checking (e.g. mypy, pylance)
-          - Linter warnings should be addressed or ignored with a documented reason.
-      - Enforced by merge request CI job on Gitlab (drastically non-conformant code fails CI test)
+      
+      A linter is a static code analysis tool used to flag programming errors, bugs, stylistic errors and suspicious constructs. Various programs with specialized search methods exist and it is beneficial to use more than one linter at the same time to increase coverage. Clang-tidy is already included in the C++ extensions for vscode (see https://devblogs.microsoft.com/cppblog/visual-studio-code-c-december-2021-update-clang-tidy/).
+      Other linters are available as extensions and must be installed to the system, e.g. cpplint for C++ or pylint and pylance (with type checking) for Python. Installation instructions are given in the extensions pages.
+      For inherited code bases it is not feasible to deal with all issues raised but new code should address as many as possible. A linter warning can only be ignored with a documented reason.
+      We may enforce linter coverage by merge request CI job on Gitlab (drastically non-conformant code fails CI test).
 
     c. commenting and documentation [Johannes]
+      
+      An intro from Google Style guide: Comments are absolutely vital to keeping our code readable. The following rules describe what you should comment and where. But remember: while comments are very important, the best code is self-documenting. Giving sensible names to types and variables is much better than using obscure names that you must then explain through comments. When writing your comments, write for your audience: the next contributor who will need to understand your code. Be generous — the next one may be you!"
 
-      - Good code helps to comment itself. This means good, meaningful and consistent naming scheme, well encapsulated code, clear control flow etc etc.  This does *not* mean that good code makes commenting redundant.
-      - Intent is not present in code. Comments shouldn’t say how the code works, but what function it fulfils. Comments can also be left to say what the code *isn’t* doing. Essentially comments should be used to upload the context of the author’s mindset into the maintainer or reviewer's brain.
-      - Interface documentation & comments to be in the header (params, return types, class comment), cpp files have working code comments (e.g. intent of code block).
-      - Doxygen preferred
+      Code is more often read than written. The coding and comment style should respect this to improve efficiency in maintenance, debugging, extension and refactoring processes. 
+
+      In short: 
+        - good coding style helps a lot: use meaningful and consistent naming scheme, well encapsulated code, clear control flow etc.
+        - try to avoid unnecessary complex structures
+        - add comments to lines or blocks where intend may not be obvious
+        - class, struct and function declaration should have an accompanying comment that describes what it is for and how it should be used with input/output 
+        - Interface documentation & comments to be in the header (params, return types, class comment), cpp files have working code comments (e.g. intent of code block).
+        - new python code should use type annotations
+        - use Doxygen style (https://doxygen.nl/)
 
     d. C++ code in headers vs source files
 
@@ -78,9 +82,17 @@
 
     g. compiler switches and warnings [Johannes]
 
-      - All compiler warnings should be addressed
-      - `-Werror` should be turned on
-      - Any warning you are willing to accept in QB code should be disabled with a push pragma and pop it as soon as practical. Warnings we are willing to accept in dependent packages could instead be suppressed using compiler flags that target specific warnings across the full package.  Both these routes should be accompanied by a comment documenting why we’re OK with this warning.
+      Modern compilers give useful information (warnings) if standard is violated. These things tend to produce error later down the line and should be addressed immediately. The flags and there interpretation are compiler dependant:
+      - for GCC: https://clang.llvm.org/docs/DiagnosticsReference.html
+      - for clang: https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+      Especially in new code we should tread every warning as error. A minimal set of flags should be used:
+      * -Werror
+      * -Wall
+      * -Wextra
+
+      Additionally clang offers an option to enable all (useful) warnings with "-Weverything". GCC does not offer that functionality since it has warnings like "-Wtraditional" which would enforce very old code style. You can check warning status with "gcc -Wall -Wextra -Q --help=warning".
+
+      Any warning you are willing to accept in QB code should be disabled with a push pragma and pop it as soon as practical. Warnings we are willing to accept in dependent packages could instead be suppressed using compiler flags that target specific warnings across the full package.  Both these routes should be accompanied by a comment documenting why we’re OK with this warning.
 
 2. object-oriented programming practices [John]
 
