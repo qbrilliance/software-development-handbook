@@ -1,6 +1,6 @@
 ## 2. Coding standards
 
-1. Code formatting & standards
+1. *Code formatting & standards*
 
     a. Code format
       
@@ -30,7 +30,7 @@
       - Linter warnings should be addressed by default, and only ignored with a documented reason.
       - Some loose conformance to linter recommendations should be enforced by CI jobs that run on merge requests (i.e. drastically non-conformant code fails the CI test).
 
-    c. commenting and documentation
+    c. Commenting and documentation
 
       - A useful comment from the Google Style guide:  
         *When writing your comments, write for your audience: the next contributor who will need to understand your code. Be generous — the next one may be you!*  
@@ -84,7 +84,7 @@
           // This file implements a singleton thread pool class based on std::thread
           ```
 
-    g. compiler switches and warnings
+    g. Compiler switches and warnings
 
       - For both gcc and clang, all warnings should be enabled and treated as errors using`-Werror -Wall -Wextra`.
       - Every warning should be treated as bug, and addressed.
@@ -92,12 +92,12 @@
       - Warnings that we deem acceptable in dependent packages should instead be suppressed using compiler flags that target specific warnings across the full package.
       - Both these mitigations should be accompanied by a comment documenting why we have suppressed rather than directly addressed this warning.
 
-2. object-oriented programming practices [John]
+2. *Object-oriented programming practices* [John]
 
     - Consider putting setters and getters in a separate header/source file (potentially with pybind bindings too)
     - additional topics to be discussed when John H next joins
 
-3. procedural programming practices [Leigh]
+3. *Procedural programming practices* [Leigh]
 
     - Test function inputs for validity! Can be done via
       - assertions (better for internal inputs)
