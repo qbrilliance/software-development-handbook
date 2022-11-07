@@ -2,39 +2,47 @@
 
 1. Code formatting & standards
 
-    a. Code format [Johannes]
+    a. Code format
+      
+      - If we are modifying an upstream project that uses a particular style, we will follow that style; otherwise, all rules in this section apply.
+      - Code formatting _must_ be consistent within individual files.  
+      - Ideally, formatting should also be consistent across whole projects.  
+      - Spaces should always be used instead of tabs.
+      - Format rules should be applied automatically, using `clang-format`.  
+      - If using an IDE, let it enforce the format rules for you on save. For example, with vscode: 
+        - install extension [`clang-format`](https://github.com/xaverh/vscode-clang-format) under "extensions".
+        - in `settings.json` add `{"editor.formatOnSave": true}`
+        - add a `.clang-format` file in the code folder or its parent, containing the text "`BasedOnStyle: foo`" with `foo` the chosen style (see [https://clang.llvm.org/docs/ClangFormatStyleOptions.html](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)).
+      - In order to enforce aherence of the main branch to the formatting standards, repositories should implement relevant post-push hooks or CI jobs that run on merge requests.
+      - C++-specific rules:  
+        - Use the [Google style](https://google.github.io/styleguide/cppguide.html). 
+        - Comment blocks should be compatible with [doxygen](https://doxygen.nl/) and not altered by clang-format. To enforce this behavior, add "`CommentPragmas:  '^[^ ]'`" to `.clang-format`.
+        - Rules do not cover relative ordering of private, protected and public members within classes; this is left up to the developer.
+        - See later sections of this page for explicit rules regarding file lengths and placement of code in headers and source files.
+        [//]: # ([TODO] extend the set of C++ guidelines to avoid common pitfalls and generally increase code quality - e.g. design patterns, memory management, unique_ptr, common pitfalls such as lack of braces after if statement, etc.)  
+      - Python-specific rules:
+         - Use the [Black formatter](https://github.com/psf/black).
 
-      - C++
-        - Use qbOS google or chromium format (publish the clang-format config)
-        - Spaces (not tabs) using the google guideline
-        - Suggest running format on save, but don’t enforce project’s do it
-        - variable naming style: Use the google style guides <insert link>
-        - Provide formatting tools in the IDE to make this as easy as possible (e.g. clang-format)
-        - If there is an upstream project is using a particular style, we will follow that style.
-        - Within a file, the formatting MUST be consistent, within a code base the formatting SHOULD be consistent.
-        - We should develop a set of C++ guidelines to avoid common pitfalls and generally increase code quality - e.g. design patterns, memory management e.g. unique_ptr, common pitfalls e.g. braces after if’s etc
-        - Our guidelines won’t cover the order of private/public & where things reside - we’ll leave that up to the designer of the module.
-        - Come to a decision on a commenting style that works for IDEs, it might be doxygen e.g. “//! \param “ but it might also be something more fundamental - need to investigate what makes the IDEs see the comments (see below, “doxygen preferred”).
+    b. Linting
+      
+      - For C++, use `clang-tidy`.  This is already included in e.g. the [C++ extensions for vscode](https://devblogs.microsoft.com/cppblog/visual-studio-code-c-december-2021-update-clang-tidy/).
+      - For Python, use a linter with type checking, such as `mypy`, `pylint` or `pylance`.
+      - Linter warnings should be addressed by default, and only ignored with a documented reason.
+      - Some loose conformance to linter recommendations should be enforced by CI jobs that run on merge requests (i.e. drastically non-conformant code fails the CI test).
 
-      - Python
-        - Use Black formatter with line length adjustment
-          - Spaces not tabs
-          - Suggest format on save
-        - New python code should use type annotations
+    c. commenting and documentation
 
-    b. linting [Johannes]
-
-      - C++ - suggest using clang-tidy in the IDE - no rules about enforcing they are dealt with (too much effort for an inherited code base). New code should address as many as possible.
-      - Py - Suggest using a linter/language server that includes type checking (e.g. mypy, pylance)
-          - Linter warnings should be addressed or ignored with a documented reason.
-      - Enforced by merge request CI job on Gitlab (drastically non-conformant code fails CI test)
-
-    c. commenting and documentation [Johannes]
-
-      - Good code helps to comment itself. This means good, meaningful and consistent naming scheme, well encapsulated code, clear control flow etc etc.  This does *not* mean that good code makes commenting redundant.
-      - Intent is not present in code. Comments shouldn’t say how the code works, but what function it fulfils. Comments can also be left to say what the code *isn’t* doing. Essentially comments should be used to upload the context of the author’s mindset into the maintainer or reviewer's brain.
-      - Interface documentation & comments to be in the header (params, return types, class comment), cpp files have working code comments (e.g. intent of code block).
-      - Doxygen preferred
+      - A useful comment from the Google Style guide:  
+        *When writing your comments, write for your audience: the next contributor who will need to understand your code. Be generous — the next one may be you!*  
+      - Good coding style helps a lot: use meaningful and consistent naming schemes, clear control flow, and extensive encapsulation.
+      - Whilst good code helps to document itself, this never completely removes the need for good documentation and commenting.
+      - Avoid unnecessarily complex structures.
+      - Add comments to lines or blocks where the intent or function of the code may not be obvious.
+      - Aim for a line of commenting every few lines of code.
+      - Class, structure and function declarations should have an accompanying comment that describes what the new construct is for and how it should be used ( including input/output). 
+      - Documentation of the API of a C++ class/struct/function should be in the header.  This includes any parameters, return types, and overall comments about the class.  The source file(s) should have comments on the actual working code (e.g. intents of code blocks).
+      - New Python code should come with type annotations.
+      - Use [Doxygen style](https://doxygen.nl/).
 
     d. C++ code in headers vs source files
 
@@ -76,11 +84,13 @@
           // This file implements a singleton thread pool class based on std::thread
           ```
 
-    g. compiler switches and warnings [Johannes]
+    g. compiler switches and warnings
 
-      - All compiler warnings should be addressed
-      - `-Werror` should be turned on
-      - Any warning you are willing to accept in QB code should be disabled with a push pragma and pop it as soon as practical. Warnings we are willing to accept in dependent packages could instead be suppressed using compiler flags that target specific warnings across the full package.  Both these routes should be accompanied by a comment documenting why we’re OK with this warning.
+      - For both gcc and clang, all warnings should be enabled and treated as errors using`-Werror -Wall -Wextra`.
+      - Every warning should be treated as bug, and addressed.
+      - Any warning that cannot be addressed should be disabled with a push pragma that is popped as soon as practical.
+      - Warnings that we deem acceptable in dependent packages should instead be suppressed using compiler flags that target specific warnings across the full package.
+      - Both these mitigations should be accompanied by a comment documenting why we have suppressed rather than directly addressed this warning.
 
 2. object-oriented programming practices [John]
 
