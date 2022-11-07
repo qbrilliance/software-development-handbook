@@ -15,15 +15,34 @@
 2. issue tracking on GitLab vs Jira and GitLab-Jira integration [tbd]
     - <Simon G and Stefan to test some things out and report back>
 
-3. *Bug reports* [Stefan]
-    - a bug report template should be provided (use is optional but encouraged)
-    - should include
-        - minimal information about how to reproduce the bug
-        - expected output
-        - what you got instead
-        - platform and software version info about where you saw the bug
-        - details of any fixes already attempted and/or workarounds found
-    - bugs on public (Gitlab) repos should be encouraged to be raised directly on those (and then migrated internally to whatever private repo / Jira board is most relevant)
+3. *Bug reports*
+Bugs found in public libraries are encouraged to be reported directly on those. A template for bug reports to Quantum Brilliance projects is provided below. Using it is encouraged but optional.
+
+```markdown
+# [Title]
+A concise but specific description of the bug.
+
+### Steps to reproduce
+Describe what needs to be done to reproduce the faulty behavior.
+
+### Resulting and expected behavior
+A brief description of what you expected and what you actually got.
+
+### Self help
+If you found a workaround or tried to fix the bug yourself, please provide your attempt here.
+
+### Technical output
+If available, provide a traceback, logs or similar. Console output is helpful here.
+
+### Screenshot
+If applicable and helpful, provide a screenshot.
+
+### System information and environment
+- Software version:
+- Operating system:
+
+Please provide additional information if applicable, for instance on which experimental setup the bug happened.
+```
 
 4. *Testing*
 
