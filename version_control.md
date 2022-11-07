@@ -98,9 +98,15 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
     - Bug 2
     ``` 
 
-    g. About tests required for merge approval: [Stefan]  
+    g. About tests required for merge approval:
 
-      - There needs to be a regular re-assessment of the test battery, with culling to sensible size
+        This list tries to describe a set of tests which need to be satisfied in addition to the pure code review before a merge request can get approval. Some of the tests are not always applicable to every merge request. The decision is left to the reviewer.
+
+        - [ ] (unit)tests are provided
+        - [ ] relevant methods have docstrings
+        - [ ] docs/examples/etc in the repository were updated
+        - [ ] `README.md` was updated
+        - [ ] `CHANGELOG.md` was updated (if target is `main`)
 
 7. *Merge or rebase?* [John]
 
