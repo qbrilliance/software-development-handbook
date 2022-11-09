@@ -39,7 +39,13 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
 
       - Feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format)  
       - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).  
-      - A merge template should exist, explaining what is expected in a merge request  
+      - A merge template should exist (should be provided in this handbook), explaining what is expected in a merge request.  A checklist that should form part of that template:
+        - [ ] (unit)tests are provided
+        - [ ] relevant methods have docstrings
+        - [ ] docs/examples/etc in the repository were updated
+        - [ ] `README.md` was updated
+        - [ ] `CHANGELOG.md` was updated (if target is `main`)
+  
       - Merge request must contain: a short summary of the solution, any new tests added, statement addressing update of documentation  
       - MR encouraged to contain: statement addressing unit/CI/regression tests added to test new features or bug fix
 
@@ -98,15 +104,6 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
     - Bug 2
     ``` 
 
-    g. About tests required for merge approval:
-
-        This list tries to describe a set of tests which need to be satisfied in addition to the pure code review before a merge request can get approval. Some of the tests are not always applicable to every merge request. The decision is left to the reviewer.
-
-        - [ ] (unit)tests are provided
-        - [ ] relevant methods have docstrings
-        - [ ] docs/examples/etc in the repository were updated
-        - [ ] `README.md` was updated
-        - [ ] `CHANGELOG.md` was updated (if target is `main`)
 
 7. *Merge or rebase?* [John]
 

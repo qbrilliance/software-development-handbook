@@ -73,6 +73,10 @@ Please provide additional information if applicable, for instance on which exper
       - Coverage and reporting:  
           - Coverage metrics should be reported for all repositories on the basis of unit tests, using the [built-in Gitlab CI](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html) as much as possible.  
           - A goal coverage level should be agreed on a per-project basis.  
+      - Maintenance:
+        - The unit test battery should be culled periodically to a manageable size; older tests should be disabled in automated jobs (but not deleted) in order to achieve a sensible balance between code coverage and CI runtime.
+        - Authors adding new tests may disable older ones as a maintenance measure.
+        - CI system maintainers should inspect the test battery on a regular (e.g. monthly) basis and perform any culling deemed necessary.
 
     d. *Component tests*  
 
