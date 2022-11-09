@@ -16,8 +16,10 @@
     - <Simon G and Stefan to test some things out and report back>
 
 3. *Bug reports*
-Bugs found in public libraries are encouraged to be reported directly on those. A template for bug reports to Quantum Brilliance projects is provided below. Using it is encouraged but optional.
-
+    - Bugs found in non-QB public libraries should be reported directly on those repositories.
+    - Bugs found in QB public repositories should be reported directly on the public repository, migrated to internal systems (e.g.\ Jira) for resolution, and then marked as resolved on the public repository once the fix has been released publicly.
+    - Bugs found in QB private repositories should be reported directly to the private repository.
+    - A template for bug reports to Quantum Brilliance projects is provided below. Using it is encouraged but optional.
 ```markdown
 # [Title]
 A concise but specific description of the bug.
