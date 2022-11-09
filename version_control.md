@@ -37,43 +37,70 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
 
     a. Preparation of merge requests   [Simon]  
 
-        - Feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format)  
-        - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).  
-        - A merge template should exist, explaining what is expected in a merge request  
-        - Merge request must contain: a short summary of the solution, any new tests added, statement addressing update of documentation  
-        - MR encouraged to contain: statement addressing unit/CI/regression tests added to test new features or bug fix
+      - Feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format)  
+      - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).  
+      - A merge template should exist, explaining what is expected in a merge request  
+      - Merge request must contain: a short summary of the solution, any new tests added, statement addressing update of documentation  
+      - MR encouraged to contain: statement addressing unit/CI/regression tests added to test new features or bug fix
 
     b. Code reviews [Simon]  
 
-        - 1 or more reviewer.  
-        - The person submitting the merge request cannot be a reviewer.  
-        - Review process should involve reading through the code, considering the logic of the feature and the unit, component and/or integration tests (in particular whether the new code adds things that need new tests added), running the new code (where feasible), and giving feedback  
-        - Additional inputs can be sought from other devs (preferably using @ ).  The reviewer(s) have responsibility to ensure that the additional inputs have been addressed before approving the merge.
+      - 1 or more reviewer.  
+      - The person submitting the merge request cannot be a reviewer.  
+      - Review process should involve reading through the code, considering the logic of the feature and the unit, component and/or integration tests (in particular whether the new code adds things that need new tests added), running the new code (where feasible), and giving feedback  
+      - Additional inputs can be sought from other devs (preferably using @ ).  The reviewer(s) have responsibility to ensure that the additional inputs have been addressed before approving the merge.
 
     c. Approval to merge [Simon]  
 
-        - Approval of the reviewers is required for merging (we need to enforce this by turning on the relevant GitLab feature)  
-        - Approval for a merge should be given once the reviewer is satisfied with all responses to review comments and new code pushed in responses, all conversations are resolved, all pipelines pass, and the feature branch is up to date with the main branch.  
-        - All reviewers must approve the merge for it to be merged.  The last reviewer to approve does the merge.  If they forget/get confused about expectations or which of multiple reviewers is last, anyone can (and should!) hit merge if all reviewers have approved.  
-        - Any pushes after an approval invalidates the previous approval  
+      - Approval of the reviewers is required for merging (we need to enforce this by turning on the relevant GitLab feature)  
+      - Approval for a merge should be given once the reviewer is satisfied with all responses to review comments and new code pushed in responses, all conversations are resolved, all pipelines pass, and the feature branch is up to date with the main branch.  
+      - All reviewers must approve the merge for it to be merged.  The last reviewer to approve does the merge.  If they forget/get confused about expectations or which of multiple reviewers is last, anyone can (and should!) hit merge if all reviewers have approved.  
+      - Any pushes after an approval invalidates the previous approval  
 
     d. merging MR’s - squash or not? [Simon]  
 
-        - MRs should be squashed if and only if there are no unmerged (to main) branches off the feature branch being merged to main  
-        - It is the MR requester’s responsibility to check on the squash vs merge preference when putting up the MR, and state the intended mode.  Reviewer to check.
+      - MRs should be squashed if and only if there are no unmerged (to main) branches off the feature branch being merged to main  
+      - It is the MR requester’s responsibility to check on the squash vs merge preference when putting up the MR, and state the intended mode.  Reviewer to check.
 
     e. order of merge requests [Simon]  
 
-        - Make use of dependent merge requests
+      - Make use of dependent merge requests
 
-    f. standards on style for changelogs generation? [Stefan]  
+    f. Standards on style for changelogs generation
 
-        - All repos that contain releasable software should feature changelogs  
-        - All merges to main/release must include appropriate updates to changelogs, done by hand rather than automated
+      - All repositories containing software used by anyone other than the owner must feature a `CHANGELOG.md` file containing release notes. 
+      - In contrast to commit messages, release notes are meant for users of the software. They should explain what changed and what the implications of each change are.
+      - Updating the changelog is a manual process, i.e. humans must be involved!
+      - Whenever merging to `main`, one must include updates to the `CHANGELOG.md`. 
+      - Every new release must contain appropriate updates to the changelog. These should typically include at least one of
+        - Added
+        - Changed
+        - Fixed
+        - Deprecated
+        - Removed
+        - Security
+      - Changelogs should follow the format proposed [here](https://keepachangelog.com/en):  
+    ```markdown
+    # Changelog
+    
+    A brief description of the project.
+
+    ## [1.0.0] - 2022-11-07
+
+    ### Added
+
+    - Feature 1
+    - Feature 2
+
+    ### Fixed
+
+    - Bug 1
+    - Bug 2
+    ``` 
 
     g. About tests required for merge approval: [Stefan]  
 
-        - There needs to be a regular re-assessment of the test battery, with culling to sensible size
+      - There needs to be a regular re-assessment of the test battery, with culling to sensible size
 
 7. *Merge or rebase?* [John]
 
