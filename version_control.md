@@ -1,111 +1,123 @@
 ## 3. Version control
 
+At QB we don't have a version control process that each project follows due to the fact that we have a huge bredth of software types. From deeply embedded, through tiny python repositories, through to massive monorepos with 10 engineers working concurrently. However there are some common industry practices which we follow that transcend project size & structure so that there is some commonality when moving to different projects within QB.
+
 1. *Location of repositories*  
 QB repositories are hosted on Gitlab, within [the qbau organisation](https://gitlab.com/qbau).
 
-2. *Layout of qbau folders*  
+1. *Layout of qbau folders*  
 
     - Each team has its own folder within the [qbau](https://gitlab.com/qbau) organisation.  The folder is named after the team and contains the software repositories maintained by that team.  This is referred to in Gitlab as a 'group'.  These folders may contain subfolders, for example for specific projects.  
     - There is also an additional [company-wide](https://gitlab.com/qbau/company-wide) folder. This contains repositories maintained by the company as a whole, such as the repository in which this handbook resides.  
     - No repositories should exist outside of these folders, i.e. in the root of the qbau organisation.
 
-3. *Gitlab organisation membership and group/repository access levels*  
+1. *Gitlab organisation membership and group/repository access levels*  
 
     - The IT Team is solely responsible for adding new users to the [qbau](https://gitlab.com/qbau) Gitlab organisation.  
     - IT will set all users' access level at the organisation level to 'Developer'.  This gives all QB employees the ability to read, raise issues on and lodge merge requests to all repos of all teams in QB.  
     - IT should give Team Leads 'Owner' level permissions for the groups (i.e. folders) that they administer.  Team Leads may upgrade any users' access levels within their Gitlab group, a specific sub-group or a repository in their group.
 
-4. *Folder structure within repositories*  
+1. *Folder structure within repositories*  
 
     - The preferred structure is for source files to be placed in a `src` folder, and headers in an `include` folder. Other source components (tests, examples, data, etc) may have their own dedicated folders at the same level as `src` and `include`.
     - Flat file structures are to be preferred over heavily nested ones. File links (whether hard or symbolic) are strongly discouraged.  
     - The only exception to the above is that headers should always be placed in a folder structure that provides an include namespace.  For example, header files in the QB SDK core reside in core/include/qb/core, and are included in C++ as `#include "qb/core/foo.hpp"`.  
     - When using cmake, `CMakeLists.txt` files are to be designed to allow out-of-source builds.  All builds in CI jobs and in released scripts should be done out-of-source.
 
-5. *Naming of git branches*  
+1. *Naming of git branches*  
 
     - `X-Y-Z`, with `X` a Jira or Gitlab issue code addressed by the branch, `Y` an informative name for the branch, and `Z` an optional date in the format YYYYMMDD.
     - The inclusion of a username as a leading namespace (”user-name/branch-name") is also encouraged, especially when either a) there is no Jira/Gitlab issue code, or b) multiple people have branches addressing the same Jira/Gitlab ticket.
 
-6. *Development flow with git* [Simon]
+1. *Development flow with git* 
 
-    - Preference for feature branches + main, with rolling releases done from main
-    - Per repo decisions to have longer-term feature-specific development branches
-    - No release branch for continuously deployed repos; repos with a longer release & testing process to add a release branch, and apply hotfixes there
+    The most basic form of development that everything at QB takes is a simple 6 step process:
+    - Create a branch based on the ticket you are working on.
+    - Make the changes on that branch.
+    - Create a merge request back.
+    - Review, modify
+    - Approve
+    - Merge
 
-7. *Merge requests and code review*
+    Caveats and flavours:
+    - At QB we have a preference for the above simple structure and a single `main` branch with feature branches.
+    - Development flow is a per-repo decision. More complicated repos can use something like [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) where there is a `develop` branch in addition to `main`, or long running feature specific development branches. It's entirely up to the product/project owner. 
+    - Feature branches should be linked to a Jira ticket by using the jira code in the branch name e.g. `RAU-16-fix-the-whatsimi-thing` where RAU-16 is the jira ticket number.
 
-    a. Preparation of merge requests   [Simon]  
+1. *Merge requests and code review*
 
-      - Feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format)  
-      - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).  
-      - A merge template should exist (should be provided in this handbook), explaining what is expected in a merge request.  A checklist that should form part of that template:
-        - [ ] (unit)tests are provided
-        - [ ] relevant methods have docstrings
-        - [ ] docs/examples/etc in the repository were updated
-        - [ ] `README.md` was updated
-        - [ ] `CHANGELOG.md` was updated (if target is `main`)
-  
-      - Merge request must contain: a short summary of the solution, any new tests added, statement addressing update of documentation  
-      - MR encouraged to contain: statement addressing unit/CI/regression tests added to test new features or bug fix
+    Code reviews should be conducted for all code that is produced at QB. We use gitlab Merge Requests (MRs) as our standard method. For a code review to pass it must meet a set of _minimum requirements_, but you may institute more strict requirements per repo if you choose.
 
-    b. Code reviews [Simon]  
+    1. Preparation of merge requests        
+         - Feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format)  
+         - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).  
+         - A merge template should exist (should be provided in this handbook), explaining what is expected in a merge request.  A checklist that should form part of that template:
+           - [ ] (unit)tests are provided
+           - [ ] relevant methods have docstrings
+           - [ ] docs/examples/etc in the repository were updated
+           - [ ] `README.md` was updated
+           - [ ] `CHANGELOG.md` was updated (if target is `main`)
+     
+         - Merge request must contain: a short summary of the solution, any new tests added, statement addressing update of documentation  
+         - MR encouraged to contain: statement addressing unit/CI/regression tests added to test new features or bug fix
 
-      - 1 or more reviewer.  
-      - The person submitting the merge request cannot be a reviewer.  
-      - Review process should involve reading through the code, considering the logic of the feature and the unit, component and/or integration tests (in particular whether the new code adds things that need new tests added), running the new code (where feasible), and giving feedback  
-      - Additional inputs can be sought from other devs (preferably using @ ).  The reviewer(s) have responsibility to ensure that the additional inputs have been addressed before approving the merge.
+    2. Code reviews
 
-    c. Approval to merge [Simon]  
+         - 1 or more reviewer.  
+         - The person submitting the merge request cannot be a reviewer.  
+         - Review process should involve reading through the code, considering the logic of the feature and the unit, component and/or integration tests (in particular whether the new code adds things that need new tests added), running the new code (where feasible), and giving feedback  
+         - Additional inputs can be sought from other devs (preferably using @ ).  The reviewer(s) have responsibility to ensure that the additional inputs have been addressed before approving the merge.
 
-      - Approval of the reviewers is required for merging (we need to enforce this by turning on the relevant GitLab feature)  
-      - Approval for a merge should be given once the reviewer is satisfied with all responses to review comments and new code pushed in responses, all conversations are resolved, all pipelines pass, and the feature branch is up to date with the main branch.  
-      - All reviewers must approve the merge for it to be merged.  The last reviewer to approve does the merge.  If they forget/get confused about expectations or which of multiple reviewers is last, anyone can (and should!) hit merge if all reviewers have approved.  
-      - Any pushes after an approval invalidates the previous approval  
+    3. Approval to merge  
+         - Approval of at least 1 of the reviewers is required for merging (we need to enforce this by turning on the relevant GitLab feature)            
+         - Approval for a merge should be given once the reviewer is satisfied with all responses to review comments and new code pushed in responses, all conversations are resolved, all pipelines pass, and the feature branch is up to date with the main branch.  
+         - All reviewers must approve the merge for it to be merged.  The last reviewer to approve does the merge.  If they forget/get confused about expectations or which of multiple reviewers is last, anyone can (and should!) hit merge if all reviewers have approved.  
+         - Any pushes after an approval invalidates the previous approval  
 
-    d. merging MR’s - squash or not? [Simon]  
+    4. Minimum requirements before merging
+         - Approval of the merge by the reviewer
+         - All CI tests pass
 
-      - MRs should be squashed if and only if there are no unmerged (to main) branches off the feature branch being merged to main  
-      - It is the MR requester’s responsibility to check on the squash vs merge preference when putting up the MR, and state the intended mode.  Reviewer to check.
+    5. Merging MR’s
+         - QB has a slight preference for the `squash` merge strategy as it keeps the git history smaller. If there have been branches made from branches, this can become troublesome, so avoid creating branches from branches or use the `merge` strategy on those MRs.
+         - It is the MR requester's responsibility to decide on the `squash` vs `merge` strategy when putting  up the MR, and state the intended mode. Reviewer to sanity check.
+         - The reviewer or the owner can hit the merge button so long as the [minimum requirements](#minimum-requirements-prior-to-merge) have been met.
+         - If you do make branches from branches, make use of Gitlab's [dependent merges feature](https://docs.gitlab.com/ee/user/project/merge_requests/dependencies.html) by targetting your MR back to the originating branch so that reviewers only need to parse the changes that were made in the branch. By putting on a dependent MR and targetting the orginal branch, you end up with an MR that only shows the changes made, but can't be merged until the originating branch's changes have been merged. 
 
-    e. order of merge requests [Simon]  
+    6. Standards on style for changelogs generation
 
-      - Make use of dependent merge requests
+         - All repositories containing software used by anyone other than the owner must feature a `CHANGELOG.md` file containing release notes. 
+         - In contrast to commit messages, release notes are meant for users of the software. They should explain what changed and what the implications of each change are.
+         - Updating the changelog is a manual process, i.e. humans must be involved!
+         - Whenever merging to `main`, one must include updates to the `CHANGELOG.md`. 
+         - Every new release must contain appropriate updates to the changelog. These should typically include at least one of
+           - Added
+           - Changed
+           - Fixed
+           - Deprecated
+           - Removed
+           - Security
+         - Changelogs should follow the format proposed [here](https://keepachangelog.com/en):  
+            ```markdown
+            # Changelog
+            
+            A brief description of the project.
 
-    f. Standards on style for changelogs generation
+            ## [1.0.0] - 2022-11-07
 
-      - All repositories containing software used by anyone other than the owner must feature a `CHANGELOG.md` file containing release notes. 
-      - In contrast to commit messages, release notes are meant for users of the software. They should explain what changed and what the implications of each change are.
-      - Updating the changelog is a manual process, i.e. humans must be involved!
-      - Whenever merging to `main`, one must include updates to the `CHANGELOG.md`. 
-      - Every new release must contain appropriate updates to the changelog. These should typically include at least one of
-        - Added
-        - Changed
-        - Fixed
-        - Deprecated
-        - Removed
-        - Security
-      - Changelogs should follow the format proposed [here](https://keepachangelog.com/en):  
-    ```markdown
-    # Changelog
-    
-    A brief description of the project.
+            ### Added
 
-    ## [1.0.0] - 2022-11-07
+            - Feature 1
+            - Feature 2
 
-    ### Added
+            ### Fixed
 
-    - Feature 1
-    - Feature 2
-
-    ### Fixed
-
-    - Bug 1
-    - Bug 2
-    ``` 
+            - Bug 1
+            - Bug 2
+            ``` 
 
 
-7. *Merge or rebase?*  
+1. *Merge or rebase?*  
 Developers are free to choose for themselves whether to use `merge` or `rebase` when bringing their feature branches up to date with the current `main` branch.  This section offers some insights and tips relevant to making that choice.  
     - Rebasing a branch performs a similar function to merging. It incorporates changes from some other branch into the current branch. 
     - As such, rebasing is a useful alternative to merging the `main` branch into a developer's feature branch.
@@ -118,3 +130,6 @@ Developers are free to choose for themselves whether to use `merge` or `rebase` 
     - Rebased branches should use `push --force-with-lease` to update remotes (*not `--force`*) in order to prevent accidents. The flag is needed because of the aforementioned re-write of the commit history.
     - Never rebase the main branch (against anything). 
 
+1. *Releases*     
+    - Releases are always be made from `main` in a "roll forward" style - we fix defects in one release by making branches and MRs and eventually a new release from `main`. We don't "roll back" changes.
+    - Creating a branch for each release is also a per-repo decision. Repos with a longer release & testing process may choose to use a release branch to apply hotfixes after testing on hardware, or make relevant entries in a CHANGELOG.md.
