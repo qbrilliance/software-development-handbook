@@ -108,13 +108,13 @@ QB repositories are hosted on Gitlab, within [the qbau organisation](https://git
 7. *Merge or rebase?*  
 Developers are free to choose for themselves whether to use `merge` or `rebase` when bringing their feature branches up to date with the current `main` branch.  This section offers some insights and tips relevant to making that choice.  
     - Rebasing a branch performs a similar function to merging. It incorporates changes from some other branch into the current branch. 
-	- As such, rebasing is a useful alternative to merging the `main` branch into a developer's feature branch.
-	- Rebasing simply "unhooks" a branch from the git tree, and re-hooks it wherever you like. This lets you move code changes around arbitrarily.
-	- In this way, rebasing allows deterministic and continuous resolution of merge conflicts between a feature branch and `main`. This means developers can keep up to date with `main` while retaining the ability to apply their commits elsewhere.
-	- **Note:** rebasing re-writes a branch's commit history, in that it creates a new commit for each commit on the branch, with the new commits being made with respect to the new base (eg the current tip of `main`).
-	- If a commit from `main` (or any other branch) is merged into the feature branch, then the feature branch can no longer be rebased. The shared merged commit binds the branches together.
+    - As such, rebasing is a useful alternative to merging the `main` branch into a developer's feature branch.
+    - Rebasing simply "unhooks" a branch from the git tree, and re-hooks it wherever you like. This lets you move code changes around arbitrarily.
+    - In this way, rebasing allows deterministic and continuous resolution of merge conflicts between a feature branch and `main`. This means developers can keep up to date with `main` while retaining the ability to apply their commits elsewhere.
+    - **Note:** rebasing re-writes a branch's commit history, in that it creates a new commit for each commit on the branch, with the new commits being made with respect to the new base (eg the current tip of `main`).
+    - If a commit from `main` (or any other branch) is merged into the feature branch, then the feature branch can no longer be rebased. The shared merged commit binds the branches together.
     - Therefore *each branch should consistently follow a merge or rebase strategy*. Once `main` has been merged into a feature branch, it can't be rebased anymore.
-	- Conversely, once a feature branch has been rebased onto the head of `main` (or any other branch), that feature branch can now be trivially fast-forward merged onto the new base branch. This means developers can merge into `main` with confidence that they have resolved merge conflicts already.
+    - Conversely, once a feature branch has been rebased onto the head of `main` (or any other branch), that feature branch can now be trivially fast-forward merged onto the new base branch. This means developers can merge into `main` with confidence that they have resolved merge conflicts already.
     - Rebased branches should use `push --force-with-lease` to update remotes (*not `--force`*) in order to prevent accidents. The flag is needed because of the aforementioned re-write of the commit history.
     - Never rebase the main branch (against anything). 
 

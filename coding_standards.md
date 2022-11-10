@@ -92,10 +92,14 @@
       - Warnings that we deem acceptable in dependent packages should instead be suppressed using compiler flags that target specific warnings across the full package.
       - Both these mitigations should be accompanied by a comment documenting why we have suppressed rather than directly addressed this warning.
 
-2. *Object-oriented programming practices* [John]
+2. *Object-oriented programming (OOP) practices*
 
-    - Consider putting setters and getters in a separate header/source file (potentially with pybind bindings too)
-    - additional topics to be discussed when John H next joins
+    - OOP facilitates code encapsulation, re-usage, and structure, which in turn makes unit testing and input validation more straightforward. As such, OOP is encouraged as the default programming paradigm. This is particularly true of code written in Python or written with Python binding in mind because in Python _everything is an object_.
+    - Classes should be given expressive names.
+    - Classes should be kept small and well encapsulated.
+    - Developers must properly encapsulate functionality as methods within classes. It is not acceptable to simply embed a functional program in a single class method.
+    - Boilerplate code for secondary functionality or bindings (e.g. setters and getters for Python properties or `pybind11` bindings) should be included via mix-in classes from separate files. This gives a cleaner core class structure.
+    - Ideally every class and class method should be [unit-tested](devops.md#unit_tests).
 
 3. *Procedural programming practices* [Leigh]
 
