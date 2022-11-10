@@ -1,16 +1,17 @@
 ## 4. DevOps
 
-1. *Usage of Docker* [John]
-    - Docker should be used to support cross-architecture builds
-    - Mac is a special case, can be supported by getting Mac runner (via cloud, or buying the metal)
-    - Docker best practices
-        - Shallow structure
-            - Can be achieved using multi-stage build, where binaries produced in one container using installed tools are copied to a new clean one
-        - Break long install (e.g. apt install) commands into multiple (alphabetised) commands
-        - Minimise usage of root access
-        - Keep your scripts OCI (open container initiative) compliant
-        - All Docker images should be accompanied by a Docker compose file
-        - All Docker images should be version-tagged in their Docker compose file (and versions should actually increment!)
+1. *Usage of Docker*
+    - CI pipelines will use containers in order to certify software product validity across various OSs and architectures. We use Docker containers for this purpose.
+    - MacOS is a special case, and can be supported by getting access to a Mac runner (whether via the cloud, or buying the Mac hardware ourselves).
+    - Docker best practices:
+        - Containers should be designed with a shallow structure with minimal layers, i.e. as few RUN directives as possible. Consider putting multiple commands in each RUN directive in order to facilitate this.
+        - RUN directives with multiple commands should be split up, with one line per command.  New lines should preferably begin with `&&` or a similar shell command concatenator.
+        - Consider splitting long commands with many flags over multiple lines, placing each flag on its own line.
+        - Break long install (e.g. apt install) commands across multiple lines, with one package per line.  Alphabetise package install ordering.
+        - Minimise usage of root access and do not distribute images that run the entrypoint as root. *This can be a severe security issue.*
+        - Keep Dockerfiles compliant with the OCI (open container initiative).
+        - Docker images should be accompanied by a Docker compose file wherever possible, to demonstrate/document proper usage.
+        - All Docker images should be version-tagged, preferably in their Docker compose file (with versions that actually increment when changes are made).
 
 2. issue tracking on GitLab vs Jira and GitLab-Jira integration [tbd]
     - <Simon G and Stefan to test some things out and report back>
