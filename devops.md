@@ -45,7 +45,7 @@ If applicable and helpful, provide a screenshot.
 Please provide additional information if applicable, for instance on which experimental setup the bug happened.
 ```
 
-4. *Testing*
+3. *Testing*
 
     a. *Definitions*  
 
@@ -103,7 +103,7 @@ Please provide additional information if applicable, for instance on which exper
       - Pipelines are to include multiple tests aimed at different platforms.  Targets should differ in hardware, compilers, OS, library versions or any other relevant characteristic across which diversity of deployments is desirable.  
       - CI pipelines should normally be implemented using Docker.
 
-5. *Dependencies*
+4. *Dependencies*
 
     - Dependencies should generally be pinned to either specific versions, or specific minimal required versions, of dependent packages.
     - Any known security vulnerabilities in dependent packages should be mitigated by upgrading/downgrading to more secure versions, or (in extreme cases) switching to an alternative package.
