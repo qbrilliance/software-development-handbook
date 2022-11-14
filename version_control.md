@@ -48,18 +48,10 @@ At QB, we don't have a single version control process that every project follows
     Reviews should be conducted for all code produced at QB. We use Gitlab Merge Requests (MRs) as our standard method. For a code review to pass and an MR to become approved, [a set of minimum requirements](#approval_to_merge) must be met. Repository owners may however institute more strict requirements on a per-repo basis if desired.
 
     a. Preparation of merge requests        
-         - The feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format)  
-         - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).  
-         - A merge template should exist (should be provided in this handbook), explaining what is expected in a merge request.  A checklist that should form part of that template:
-           - [ ] (unit)tests are provided
-           - [ ] relevant methods have docstrings
-           - [ ] docs/examples/etc in the repository were updated
-           - [ ] `README.md` was updated
-           - [ ] `CHANGELOG.md` was updated (if target is `main`)
-     
-         - Merge request must contain: a short summary of the solution, any new tests added, statement addressing update of documentation  
-         - MR encouraged to contain: statement addressing unit/CI/regression tests added to test new features or bug fix
-
+      - The feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format, not "untested" etc)  
+      - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).
+      - Each merge request created should be created using the [merge request template](merge_request_template.md)
+        
     b. Code reviews
 
       - Each MR requires at least one formally identified reviewer. At the requester or repo owner's discretion, additional reviewers can be added at any point in the review process. 
@@ -68,9 +60,15 @@ At QB, we don't have a single version control process that every project follows
         - Reading through the code. 
         - Critically considering the logic of the feature or bug fix applied by the MR.
         - Critically evaluating the unit, component and/or integration tests (in particular whether the new code adds things that need new tests added).
-        - Running the new code (where feasible).
         - Giving feedback on all these aspects, including specific suggestions for revision.
       - Additional inputs can be sought during a review from other developers, preferably by tagging them using `@`.  The reviewer(s) have responsibility to ensure that the additional inputs have been addressed before approving the merge.
+
+      - Things you cannot rely on the reviewer to do:
+
+        - Run your code. It is not a reviewers responsibility to test that your code fulfills it's purpose. They may still do this, but it's your responsibility to make sure it works.
+        - Find all the bugs. Code reviews are the [best way to find defects](https://kevin.burke.dev/kevin/the-best-ways-to-find-bugs-in-your-code/), but are not a substitute for a good suite of tests. 
+        - Pick up all your spelling mistakes. Use a spell checker. Spelling errors take focus away from the actual code.
+        - Pick up all your formatting non-compliances. Use auto-formatting & a linter. Formatting errors take focus away from the actual code. 
 
     c. Approval to merge <a name="approval_to_merge"></a>
 
@@ -124,7 +122,7 @@ At QB, we don't have a single version control process that every project follows
             ``` 
 
 
-1. *Merge or rebase?*  
+2. *Merge or rebase?*  
 Developers are free to choose for themselves whether to use `merge` or `rebase` when bringing their feature branches up to date with the current `main` branch.  This section offers some insights and tips relevant to making that choice.  
     - Rebasing a branch performs a similar function to merging. It incorporates changes from some other branch into the current branch. 
     - As such, rebasing is a useful alternative to merging the `main` branch into a developer's feature branch.
