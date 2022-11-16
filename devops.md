@@ -13,10 +13,8 @@
         - Docker images should be accompanied by a Docker compose file wherever possible, to demonstrate/document proper usage.
         - All Docker images should be version-tagged, preferably in their Docker compose file (with versions that actually increment when changes are made).
 
-2. issue tracking on GitLab vs Jira and GitLab-Jira integration [tbd]
-    - <Simon G and Stefan to test some things out and report back>
 
-3. *Bug reports*
+2. *Bug reports*
     - Bugs found in non-QB public libraries should be reported directly on those repositories.
     - Bugs found in QB public repositories should be reported directly on the public repository, migrated to internal systems (e.g.\ Jira) for resolution, and then marked as resolved on the public repository once the fix has been released publicly.
     - Bugs found in QB private repositories should be reported directly to the private repository.
@@ -47,7 +45,7 @@ If applicable and helpful, provide a screenshot.
 Please provide additional information if applicable, for instance on which experimental setup the bug happened.
 ```
 
-4. *Testing*
+3. *Testing*
 
     a. *Definitions*  
 
@@ -105,7 +103,7 @@ Please provide additional information if applicable, for instance on which exper
       - Pipelines are to include multiple tests aimed at different platforms.  Targets should differ in hardware, compilers, OS, library versions or any other relevant characteristic across which diversity of deployments is desirable.  
       - CI pipelines should normally be implemented using Docker.
 
-5. *Dependencies*
+4. *Dependencies*
 
     - Dependencies should generally be pinned to either specific versions, or specific minimal required versions, of dependent packages.
     - Any known security vulnerabilities in dependent packages should be mitigated by upgrading/downgrading to more secure versions, or (in extreme cases) switching to an alternative package.
