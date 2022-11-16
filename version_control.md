@@ -6,31 +6,31 @@ At QB, we don't have a single version control process that every project follows
 
     QB repositories are hosted on Gitlab, within [the qbau organisation](https://gitlab.com/qbau).
 
-1. *Layout of qbau folders*  
+2. *Layout of qbau folders*  
 
     - Each team has its own folder within the [qbau](https://gitlab.com/qbau) organisation.  The folder is named after the team and contains the software repositories maintained by that team.  This is referred to in Gitlab as a 'group'.  These folders may contain subfolders, for example for specific projects.  
     - There is also an additional [company-wide](https://gitlab.com/qbau/company-wide) folder. This contains repositories maintained by the company as a whole, such as the repository in which this handbook resides.  
     - No repositories should exist outside of these folders, i.e. in the root of the qbau organisation.
 
-1. *Gitlab organisation membership and group/repository access levels*  
+3. *Gitlab organisation membership and group/repository access levels*  
 
     - The IT Team is solely responsible for adding new users to the [qbau](https://gitlab.com/qbau) Gitlab organisation.  
     - IT will set all users' access level at the organisation level to 'Developer'.  This gives all QB employees the ability to read, raise issues on and lodge merge requests to all repos of all teams in QB.  
     - IT should give Team Leads 'Owner' level permissions for the groups (i.e. folders) that they administer.  Team Leads may upgrade any users' access levels within their Gitlab group, a specific sub-group or a repository in their group.
 
-1. *Folder structure within repositories*  
+4. *Folder structure within repositories*  
 
     - The preferred structure is for source files to be placed in a `src` folder, and headers in an `include` folder. Other source components (tests, examples, data, etc) may have their own dedicated folders at the same level as `src` and `include`.
     - Flat file structures are to be preferred over heavily nested ones. File links (whether hard or symbolic) are strongly discouraged.  
     - The only exception to the above is that headers should always be placed in a folder structure that provides an include namespace.  For example, header files in the QB SDK core reside in core/include/qb/core, and are included in C++ as `#include "qb/core/foo.hpp"`.  
     - When using cmake, `CMakeLists.txt` files are to be designed to allow out-of-source builds.  All builds in CI jobs and in released scripts should be done out-of-source.
 
-1. *Naming of git branches*  
+5. *Naming of git branches*  
 
     - `X-Y-Z`, with `X` a Jira or Gitlab issue code addressed by the branch, `Y` an informative name for the branch, and `Z` an optional date in the format YYYYMMDD.
     - The inclusion of a username as a leading namespace (”user-name/branch-name") is also encouraged, especially when either a) there is no Jira/Gitlab issue code, or b) multiple people have branches addressing the same Jira/Gitlab ticket.
 
-1. *Development flow with git*
+6. *Development flow with git*
 
     The basic development flow at QB follows a simple 6-step process:
 
@@ -43,21 +43,22 @@ At QB, we don't have a single version control process that every project follows
 
     The preference at QB is for the simple branch structure implied by this process, i.e. a a single `main` branch with feature branches. However, branch structure and development flow are ultimately per-repo decisions to be made by the product/project owner.  More complicated repos can use something like [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) where there is a `develop` branch in addition to `main`, or long-running feature-specific development branches.
 
-1. *Merge requests and code review*
+7. *Merge requests and code review*
 
     Reviews should be conducted for all code produced at QB. We use Gitlab Merge Requests (MRs) as our standard method. For a code review to pass and an MR to become approved, [a set of minimum requirements](#approval_to_merge) must be met. Repository owners may however institute more strict requirements on a per-repo basis if desired.
 
-    a. Preparation of merge requests        
-      - The feature must be fully ready for merge before requesting review (i.e. not in ‘Draft’ format, not "untested" etc)  
+    a. Preparation of merge requests
+
+      - The feature must be fully ready for merge before requesting review (i.e. not in "Draft" format, not "untested", etc).
       - New functions and classes should not be considered ready for merge without corresponding unit tests (see [unit tests](devops.md#unit_tests)).
-      - Each merge request created should be created using the [merge request template](merge_request_template.md)
-        
+      - Each merge request created should follow the [merge request template](merge_request_template.md).
+
     b. Code reviews
 
-      - Each MR requires at least one formally identified reviewer. At the requester or repo owner's discretion, additional reviewers can be added at any point in the review process. 
-      - The person submitting the merge request cannot be a reviewer.  
+      - Each MR requires at least one formally identified reviewer. At the requester or repo owner's discretion, additional reviewers can be added at any point in the review process.
+      - The person submitting the merge request cannot be a reviewer.
       - A review should include:
-        - Reading through the code. 
+        - Reading through the code.
         - Critically considering the logic of the feature or bug fix applied by the MR.
         - Critically evaluating the unit, component and/or integration tests (in particular whether the new code adds things that need new tests added).
         - Giving feedback on all these aspects, including specific suggestions for revision.
@@ -65,7 +66,7 @@ At QB, we don't have a single version control process that every project follows
 
       - Things you cannot rely on the reviewer to do:
 
-        - Run your code. It is not a reviewers responsibility to test that your code fulfills it's purpose. They may still do this, but it's your responsibility to make sure it works.
+        - Run your code. It is not a reviewer's responsibility to test that your code fulfils its purpose. They may still do this, but it's your responsibility to make sure it works before putting it up for review. If you explicitly want the reviewer to test that it works for them and/or on their system, say so in the text of the merge request.
         - Find all the bugs. Code reviews are the [best way to find defects](https://kevin.burke.dev/kevin/the-best-ways-to-find-bugs-in-your-code/), but are not a substitute for a good suite of tests. 
         - Pick up all your spelling mistakes. Use a spell checker. Spelling errors take focus away from the actual code.
         - Pick up all your formatting non-compliances. Use auto-formatting & a linter. Formatting errors take focus away from the actual code. 
@@ -122,7 +123,7 @@ At QB, we don't have a single version control process that every project follows
             ``` 
 
 
-2. *Merge or rebase?*  
+8. *Merge or rebase?*  
 Developers are free to choose for themselves whether to use `merge` or `rebase` when bringing their feature branches up to date with the current `main` branch.  This section offers some insights and tips relevant to making that choice.  
     - Rebasing a branch performs a similar function to merging. It incorporates changes from some other branch into the current branch. 
     - As such, rebasing is a useful alternative to merging the `main` branch into a developer's feature branch.
@@ -135,7 +136,7 @@ Developers are free to choose for themselves whether to use `merge` or `rebase` 
     - Rebased branches should use `push --force-with-lease` to update remotes (*not `--force`*) in order to prevent accidents. The flag is needed because of the aforementioned re-write of the commit history.
     - Never rebase the main branch (against anything). 
 
-1. *Releases*
+9. *Releases*
     - By default, releases are to be made from the `main` branch, and given a git tag that differs for each release.    
     - Repos with a longer release and testing process may however choose to use a release branch to apply hotfixes after testing on hardware, or to simply make relevant entries in a CHANGELOG.md rather than applying a new tag.
     - Releases are to be made in a "roll forward" style.  That is, defects in one release should be fixed by making new branches and MRs, and eventually a new release. Do not "roll back" changes.
