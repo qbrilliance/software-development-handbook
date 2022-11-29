@@ -24,6 +24,7 @@ At QB, we don't have a single version control process that every project follows
     - Flat file structures are to be preferred over heavily nested ones. File links (whether hard or symbolic) are strongly discouraged.  
     - The only exception to the above is that headers should always be placed in a folder structure that provides an include namespace.  For example, header files in the QB SDK core reside in core/include/qb/core, and are included in C++ as `#include "qb/core/foo.hpp"`.  
     - When using cmake, `CMakeLists.txt` files are to be designed to allow out-of-source builds.  All builds in CI jobs and in released scripts should be done out-of-source.
+      - Petalinux-based embedded projects are an exception; these should follow Petalinux and OpenEmbedded conventions, using layers.
 
 5. *Naming of git branches*  
 
