@@ -4,12 +4,12 @@ At QB, we don't have a single version control process that every project follows
 
 1. *Location of repositories*
 
-    QB repositories are hosted on Gitlab, within [the qbau organisation](https://gitlab.com/qbau).
+    QB internal repositories are hosted on Gitlab, within [the qbau organisation](https://gitlab.com/qbau). Public-facing QB repositories are hosted on GitHub, within [the qbrilliance organisation](https://github.com/qbrilliance).
 
 2. *Layout of qbau folders*  
 
     - Each team has its own folder within the [qbau](https://gitlab.com/qbau) organisation.  The folder is named after the team and contains the software repositories maintained by that team.  This is referred to in Gitlab as a 'group'.  These folders may contain subfolders, for example for specific projects.  
-    - There is also an additional [company-wide](https://gitlab.com/qbau/company-wide) folder. This contains repositories maintained by the company as a whole, such as the repository in which this handbook resides.  
+    - There is also an additional [company-wide](https://gitlab.com/qbau/company-wide) folder. This contains repositories maintained by the company as a whole.
     - No repositories should exist outside of these folders, i.e. in the root of the qbau organisation.
 
 3. *Gitlab organisation membership and group/repository access levels*  
